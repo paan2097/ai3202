@@ -19,33 +19,35 @@ class Node():
 		
 		if (heuristic == "euclidian"):
 			return (10 * math.sqrt(((x_final-x_now)**2)+((y_final-y_now)**2)))
+			#distance using pythagorean theorem
 			
 		elif (heuristic == "manhattan"):
 			return (10*(abs(x_final-x_now)+abs(y_final-y_now)))
+			#straight line distance
 						
 		else:
 			print("Invalid Heuristic")
 		
-	def findAdjacents(self,heur,matrix,visited,passed):
+	def getAdj(self,heur,matrix,visited,passed):
 		x_val=self.location[0]
 		y_val=self.location[1]
 		x_grid=len(matrix)
 		y_grid=len(matrix[:][1])
 		adj_nodes=[]
 		
-		for i in range(-1,2):
+		for i in range(-1,2): #checks adj nodes in i
 			
 			if(0<=(x_val+i)<x_grid):	
 				
-				for j in range(-1,2):
+				for j in range(-1,2): #checks adj nodes in j
 					
 					if(0<=(y_val+j)<y_grid):
 						temp=matrix[x_val+i][y_val+j]
 						maze=[]
 						exists=False
 						opened=False
-						maze.append(x_val+i)
-						maze.append(y_val+j)
+						maze.append(x_val+i) #adds i to maze
+						maze.append(y_val+j) #adds j to maze
 						
 						for nodes in visited:
 							
@@ -67,17 +69,17 @@ class Node():
 							if((abs(i)+abs(j))<2):
 								
 								if(temp=="1"):
-									node.distToStart=20+self.distToStart
+									node.distToStart=20+self.distToStart #mountain sqaure
 									
 								else:
-									node.distToStart=10+self.distToStart
+									node.distToStart=10+self.distToStart #horizontal/vertical regular square
 									
 							else:
 								if(temp=="1"):
-									node.distToStart=24 + self.distToStart
+									node.distToStart=24 + self.distToStart #diagonal into mountain square
 									
 								else:
-									node.distToStart=14 + self.distToStart
+									node.distToStart=14 + self.distToStart #diagonal into regular square 
 							node.f=(node.heurDistance + node.distToStart)
 							
 							if(node.location != self.location and opened==False):
@@ -95,13 +97,13 @@ def getPath(world, Heuristic):
 		
 		for line in data:
 			line=line.strip()
-			items=line.split(" ")
+			items=line.split(" ") #read in data from worldtxt
 			col=0
 			
 			for item in items:
 				
 				if col <=9 and row<=7:
-					matrix[row][col]=item
+					matrix[row][col]=item  #creates matrix from data
 					col=col + 1
 					
 			row = row+1
@@ -123,21 +125,21 @@ def getPath(world, Heuristic):
 	goal=False
 	
 	while(len(open_node)!=0) and goal==False:
-		closestNode=None
+		near_node=None
 		
 		for nodes in open_node:
 			
-			if closestNode == None:
-				closestNode= nodes
+			if near_node == None:
+				near_node= nodes
 				
 			else:
-				if(closestNode.f > nodes.f):
-					closestNode=nodes	
+				if(near_node.f > nodes.f):  #picks node with lowest f
+					near_node=nodes	
 					
-		adj=closestNode.findAdjacents(Heuristic,matrix, visited_node,open_node)
+		adj=near_node.getAdj(Heuristic,matrix, visited_node,open_node)
 		num=num+1
-		visited_node.append(closestNode.location)
-		open_node.remove(closestNode)
+		visited_node.append(near_node.location)
+		open_node.remove(near_node)
 		
 		for nodes in adj:
 			
@@ -146,7 +148,7 @@ def getPath(world, Heuristic):
 				
 				while(nodes.parent != None):
 					good_path.append(nodes.location)
-					nodes=nodes.parent
+					nodes=nodes.parent   #sets parent node 
 					
 				good_path.append(nodes.location)
 				goal=True
