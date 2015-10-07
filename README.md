@@ -16,7 +16,7 @@ For Assignment 5:
 
 commands include:
 
-python Assignment5.py World1MDP.txt <E>
+python Assignment5.py World1MDP.txt [E]
 
 I could not find a value of E that would change the solution path of my program. I tried a wide range of values
 for E but none of them changed by path. The only part of my program that E affected was utility values.
