@@ -20,3 +20,9 @@ python Assignment5.py World1MDP.txt [E]
 
 I could not find a value of E that would change the solution path of my program. I tried a wide range of values
 for E but none of them changed by path. The only part of my program that E affected was utility values.
+
+For Assignment 6:
+
+commands include:
+
+python Assignment6.py "-pp" or "-ps" or "-m" or "-j" or -g"|"
